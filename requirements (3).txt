@@ -1,0 +1,17 @@
+streamlit>=1.35
+torch>=2.1
+transformers>=4.40
+sentence-transformers>=2.7
+scikit-learn>=1.4
+pandas>=2.2
+numpy>=1.26
+matplotlib>=3.8
+seaborn>=0.13
+umap-learn>=0.5
+hdbscan>=0.8
+shap>=0.45
+lime>=0.2
+openai>=1.30
+python-dotenv>=1.0
+tqdm>=4.66
+datasets>=2.19

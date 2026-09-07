@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+env/
+*.egg-info/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Model weights (too large for git — see README "Getting the trained model")
+models/severity/biobert/
+models/embeddings/*.npy
+*.bin
+*.safetensors
+
+# Raw / large data (VAERS CSVs — not our IP to redistribute, and large)
+data/raw/
+data/combined/
+data/processed/
+
+# Secrets
+.env
+*.key
+
+# OS / editor
+.DS_Store
+.vscode/

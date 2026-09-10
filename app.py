@@ -1,12 +1,3 @@
-"""
-ADEGuard — AI-Powered Adverse Drug Event Detection and Severity Mapping
-Streamlit demo app.
-
-Run locally:
-    pip install -r requirements.txt
-    export GROQ_API_KEY=your_key_here      # (Windows: set GROQ_API_KEY=your_key_here)
-    streamlit run app.py
-"""
 
 import os
 import json
@@ -23,28 +14,10 @@ from transformers import (
 )
 from openai import OpenAI
 
-
-# ------------------------------------------------------------------
-# Config
-# ------------------------------------------------------------------
-
 CLASS_NAMES = ["mild", "moderate", "severe"]
-
-# Where your fine-tuned severity model lives locally after you copy it
-# out of Colab (see README "Getting the trained model" section).
 LOCAL_SEVERITY_MODEL_PATH = "models/severity/biobert"
-
-# Fallback: if you've pushed the fine-tuned model to the Hugging Face Hub
-# instead of shipping the weights in the repo, set this env var to its
-# repo id (e.g. "yourusername/adeguard-severity-biobert") and the app
-# will pull from there when the local folder isn't found.
 HF_SEVERITY_MODEL_ID = os.environ.get("SEVERITY_MODEL_ID", "")
-
 NER_MODEL_NAME = "d4data/biomedical-ner-all"
-
-# Optional: path to the symptom_intelligence.csv produced by the notebook.
-# If present, the app can show which symptom cluster a detected symptom
-# belongs to and that cluster's historical severe-outcome rate.
 SYMPTOM_INTELLIGENCE_PATH = "results/symptom_intelligence.csv"
 
 ENTITY_MAPPING = {
@@ -64,12 +37,6 @@ ENTITY_MAPPING = {
 }
 
 GENAI_MODEL = "openai/gpt-oss-20b"
-
-
-# ------------------------------------------------------------------
-# Cached resource loaders
-# ------------------------------------------------------------------
-
 @st.cache_resource(show_spinner="Loading severity model...")
 def load_severity_model():
     model_source = (
@@ -114,12 +81,6 @@ def get_genai_client():
     if not api_key:
         return None
     return OpenAI(api_key=api_key, base_url="https://api.groq.com/openai/v1")
-
-
-# ------------------------------------------------------------------
-# Pipeline functions (mirrors the notebook's logic)
-# ------------------------------------------------------------------
-
 def normalize_entity_label(label):
     label = str(label).upper().strip()
     return ENTITY_MAPPING.get(label, label)
@@ -231,11 +192,6 @@ def get_genai_analysis(client, prompt):
         return json.loads(clean_json_output(raw_output))
     except Exception:
         return {"raw_output": raw_output}
-
-
-# ------------------------------------------------------------------
-# Streamlit UI
-# ------------------------------------------------------------------
 
 st.set_page_config(page_title="ADEGuard", page_icon="💊", layout="wide")
 
